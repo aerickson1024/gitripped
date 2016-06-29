@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/aerickson1024/gitripped/issues"
   },
-  "homepage": "https://github.com/aerickson1024/gitripped#readme"
+  "homepage": "https://github.com/aerickson1024/gitripped#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
 }
