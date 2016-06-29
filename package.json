@@ -1,0 +1,19 @@
+{
+  "name": "gitripped",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aerickson1024/gitripped.git"
+  },
+  "author": "andy erickson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aerickson1024/gitripped/issues"
+  },
+  "homepage": "https://github.com/aerickson1024/gitripped#readme"
+}
