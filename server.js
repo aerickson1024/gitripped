@@ -1,9 +1,11 @@
 var app = require('express')();
 
+app.set('port', (process.env.PORT || 3000));
+
 app.get('/', function(req, res){
     res.send('Hello Heroku');
 });
 
-app.listen(3000, '127.0.0.1', function(){
-    console.log('server is now running');
+app.listen(app.get('port'), function(){
+    console.log('server is now running on port %s', app.get('port'));
 });
