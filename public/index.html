@@ -2,13 +2,23 @@
 <html lang="en" ng-app="app">
     <head>
         <title>GitRipped</title>
+        <!-- Angular -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.min.js"></script>
 
+        <!-- App -->
         <script src="app/app.js"></script>
 
+        <!-- Core -->
+        <script src="app/core/user.service.js"></script>
+
+        <!-- Landing -->
         <script src="app/landing/landing.module.js"></script>
         <script src="app/landing/landing.controller.js"></script>
+
+        <!-- Welcome -->
+        <script src="app/welcome/welcome.module.js"></script>
+        <script src="app/welcome/welcome.controller.js"></script>
     </head>
     <body ng-view></body>
 </html>
