@@ -3,13 +3,13 @@
         .module('app.header')
         .controller('header', Header);
 
-    Header.$inject = [];
+    Header.$inject = ['authorization'];
 
-    function Header() {
+    function Header(authorization) {
         var vm = this;
 
         vm.logout = function() {
-            console.log('User has logged out.');
+            authorization.removeToken();
         }
     }
 }());
