@@ -3,6 +3,7 @@
         .module('app', [
             'app.landing',
             'app.register',
+            'app.login',
             'app.welcome',
             'ngRoute'
         ])
@@ -16,6 +17,11 @@
                 .when('/register', {
                     templateUrl: 'app/register/register.html',
                     controller: 'register',
+                    controllerAs: 'vm'
+                })
+                .when('/login', {
+                    templateUrl: 'app/login/login.html',
+                    controller: 'login',
                     controllerAs: 'vm'
                 })
                 .when('/welcome', {
