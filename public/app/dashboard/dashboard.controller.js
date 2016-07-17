@@ -1,11 +1,11 @@
 (function() {
     angular
-        .module('app.welcome')
-        .controller('welcome', Welcome);
+        .module('app.dashboard')
+        .controller('dashboard', Dashboard);
 
-    Welcome.$inject = [];
+    Dashboard.$inject = [];
 
-    function Welcome() {
+    function Dashboard() {
         var vm = this;
 
         vm.logout = function() {

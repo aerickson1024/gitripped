@@ -1,10 +1,11 @@
 (function() {
     angular
         .module('app', [
+            'app.header',
             'app.landing',
             'app.register',
             'app.login',
-            'app.welcome',
+            'app.dashboard',
             'ngRoute'
         ])
         .config(['$routeProvider', function($routeProvider) {
@@ -24,9 +25,9 @@
                     controller: 'login',
                     controllerAs: 'vm'
                 })
-                .when('/welcome', {
-                    templateUrl: 'app/welcome/welcome.html',
-                    controller: 'welcome',
+                .when('/dashboard', {
+                    templateUrl: 'app/dashboard/dashboard.html',
+                    controller: 'dashboard',
                     controllerAs: 'vm'
                 })
                 .otherwise({ redirectTo: '/' });

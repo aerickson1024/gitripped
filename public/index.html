@@ -12,6 +12,10 @@
         <!-- Core -->
         <script src="app/core/user.service.js"></script>
 
+        <!-- Header -->
+        <script src="app/header/header.module.js"></script>
+        <script src="app/header/header.controller.js"></script>
+
         <!-- Landing -->
         <script src="app/landing/landing.module.js"></script>
         <script src="app/landing/landing.controller.js"></script>
@@ -25,20 +29,20 @@
         <script src="app/login/login.controller.js"></script>
 
         <!-- Welcome -->
-        <script src="app/welcome/welcome.module.js"></script>
-        <script src="app/welcome/welcome.controller.js"></script>
+        <script src="app/dashboard/dashboard.module.js"></script>
+        <script src="app/dashboard/dashboard.controller.js"></script>
     </head>
     <body>
-        <header>
+        <header ng-controller="header as vm">
             <div>
                 <a href="#/">Home</a>
                 <a href="#/register">Register</a>
                 <a href="#/login">Login</a>
-                <a href="#/logout">Logout</a>
+                <button ng-click="vm.logout()">Logout</button>
             </div>
         </header>
-        <section class="main-body" ng-view>
 
-        </section>
+        <section class="main-body" ng-view></section>
+
     </body>
 </html>
