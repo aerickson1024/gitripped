@@ -1,0 +1,40 @@
+<h1>Registration form</h1>
+<hr />
+<p>
+    Please fill in the required information to create an account.
+</p>
+<table>
+    <tr>
+        <td>
+            First Name
+        </td>
+        <td>
+            <input type="text" ng-model="vm.firstName" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Last Name
+        </td>
+        <td>
+            <input type="text" ng-model="vm.lastName" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Email
+        </td>
+        <td>
+            <input type="text" ng-model="vm.email" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Password
+        </td>
+        <td>
+            <input type="password" ng-model="vm.password" />
+        </td>
+    </tr>
+</table>
+<button ng-click="vm.register()">Create Account</button>

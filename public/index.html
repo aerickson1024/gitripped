@@ -16,9 +16,25 @@
         <script src="app/landing/landing.module.js"></script>
         <script src="app/landing/landing.controller.js"></script>
 
+        <!-- Register -->
+        <script src="app/register/register.module.js"></script>
+        <script src="app/register/register.controller.js"></script>
+
         <!-- Welcome -->
         <script src="app/welcome/welcome.module.js"></script>
         <script src="app/welcome/welcome.controller.js"></script>
     </head>
-    <body ng-view></body>
+    <body>
+        <header>
+            <div>
+                <a href="#/">Home</a>
+                <a href="#/register">Register</a>
+                <a href="#/login">Login</a>
+                <a href="#/logout">Logout</a>
+            </div>
+        </header>
+        <section class="main-body" ng-view>
+
+        </section>
+    </body>
 </html>
