@@ -1,6 +1,7 @@
 var bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     config = require('../config/config'),
+    jwt = require('jsonwebtoken'),
     user = require('../models/user');
 
 module.exports = function(app) {
@@ -34,9 +35,36 @@ module.exports = function(app) {
     });
 
     app.post('/api/authenticate', function(req, res) {
-        res.send({
-            email: req.body.email,
-            password: req.body.password
+        user.findOne({
+            email: req.body.email
+        }, function(err, foundUser) {
+            if (err) throw err;
+
+            if (!foundUser) {
+                res.json({ success: false, message: 'Authentication failed. User not found.' });
+            } else {
+                foundUser.comparePassword(req.body.password, function(err, isMatch) {
+                    if (isMatch && !err) {
+                        var token = jwt.sign(foundUser, config.secret, {
+                            expiresIn: 10080
+                        });
+                        var token = jwt.sign(foundUser, config.secret, {
+                            expiresIn: 10080 // in seconds
+                        });
+
+                        res.json({
+                            success: true,
+                            message: 'JWT was created.',
+                            token: token
+                        });
+                    } else {
+                        res.json({
+                            succcess: false,
+                            message: 'Authentication failed. Passwords did not match'
+                        });
+                    }
+                });
+            }
         });
     });
 };
