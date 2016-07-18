@@ -3,14 +3,17 @@
         .module('app.login')
         .controller('login', Login);
 
-    Login.$inject = ['user'];
+    Login.$inject = ['$location', 'user'];
 
-    function Login(user) {
+    function Login($location, user) {
         var vm = this;
 
         vm.login = function() {
             user.authenticate(vm.email, vm.password).then(function(res) {
-                console.log(res.data);
+                if (res.data.success) {
+                    $location.path('/dashboard');
+                }
+                // console.log(res.data);
             });
         }
     }

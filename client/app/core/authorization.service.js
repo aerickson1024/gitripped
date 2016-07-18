@@ -3,9 +3,9 @@
         .module('app')
         .service('authorization', Authorization);
 
-    Authorization.$inject = ['$window'];
+    Authorization.$inject = ['$window', '$rootScope', '$location'];
 
-    function Authorization($window) {
+    function Authorization($window, $rootScope, $location) {
         var self = this;
 
         // Extracts the 'claims' section of the JWT and parses
@@ -40,5 +40,11 @@
                 return false;
             }
         }
+
+        $rootScope.$watch(function() { return self.isAuthorized(); }, function(newValue, oldValue) {
+            if (!newValue && oldValue) {
+                $location.path('/');
+            }
+        }, true);
     }
 }());

@@ -15,7 +15,7 @@
                 vm.email,
                 vm.password
             ).then(function(res) {
-                console.log(res.data);
+                // console.log(res.data);
             });
         }
     }
