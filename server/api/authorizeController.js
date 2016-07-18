@@ -46,9 +46,6 @@ module.exports = function(app) {
                 foundUser.comparePassword(req.body.password, function(err, isMatch) {
                     if (isMatch && !err) {
                         var token = jwt.sign(foundUser, config.secret, {
-                            expiresIn: 10080
-                        });
-                        var token = jwt.sign(foundUser, config.secret, {
                             expiresIn: 10080 // in seconds
                         });
 
