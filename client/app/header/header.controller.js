@@ -11,5 +11,9 @@
         vm.logout = function() {
             authorization.removeToken();
         }
+
+        vm.isAuthorized = function() {
+            return authorization.isAuthorized();
+        }
     }
 }());

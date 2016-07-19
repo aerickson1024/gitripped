@@ -43,9 +43,10 @@
         <header ng-controller="header as vm">
             <div>
                 <a href="#/">Home</a>
-                <a href="#/register">Register</a>
-                <a href="#/login">Login</a>
-                <button ng-click="vm.logout()">Logout</button>
+                <a ng-hide="vm.isAuthorized()" href="#/register">Register</a>
+                <a ng-hide="vm.isAuthorized()" href="#/login">Login</a>
+                <a ng-show="vm.isAuthorized()" href="#/dashboard">Account</a>
+                <button ng-show="vm.isAuthorized()" ng-click="vm.logout()">Logout</button>
             </div>
         </header>
 

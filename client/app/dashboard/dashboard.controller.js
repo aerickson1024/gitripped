@@ -15,7 +15,9 @@
         });
 
         $http.get('/api/dashboard').then(function(res) {
-            vm.message = res.data.message;
+            if (res.data.success) {
+                
+            }
         });
 
         vm.logout = function() {
