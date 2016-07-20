@@ -1,4 +1,4 @@
-var nJwt = require('nJwt'),
+var nJwt = require('njwt'),
     cookieParser = require('cookie-parser'),
     config = require('../config/config');
 
