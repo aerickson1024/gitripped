@@ -1,7 +1,7 @@
 var bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     config = require('../config/config'),
-    jwt = require('jsonwebtoken'),
+    nJwt = require('njwt'),
     user = require('../models/user');
 
 module.exports = function(app) {
@@ -45,9 +45,18 @@ module.exports = function(app) {
             } else {
                 foundUser.comparePassword(req.body.password, function(err, isMatch) {
                     if (isMatch && !err) {
-                        var token = jwt.sign(foundUser, config.secret, {
-                            expiresIn: 10080 // in seconds
-                        });
+                        var claims = {
+                            sub: foundUser._id,
+                            iss: 'http://locahost:3000',
+                            permissions: 'admin'
+                        };
+
+                        var jwt = nJwt.create(claims, config.secret);
+                        jwt.body.firstName = foundUser.firstName;
+                        jwt.body.lastName = foundUser.lastName;
+                        jwt.body.email = foundUser.email;
+
+                        var token = jwt.compact(jwt);
 
                         res.json({
                             success: true,

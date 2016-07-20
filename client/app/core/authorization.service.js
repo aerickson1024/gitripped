@@ -22,9 +22,9 @@
             var params = JSON.parse($window.atob(base64));
 
             currentUser.storeUser(
-                params._doc.firstName,
-                params._doc.lastName,
-                params._doc.email
+                params.firstName,
+                params.lastName,
+                params.email
             );
 
             return params;

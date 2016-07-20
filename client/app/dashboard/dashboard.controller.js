@@ -16,7 +16,9 @@
 
         $http.get('/api/dashboard').then(function(res) {
             if (res.data.success) {
-                
+                console.log('User was authorized to view the Dashboard.');
+            } else {
+                console.log('User was denied acccess to the Dashboard.');
             }
         });
 
