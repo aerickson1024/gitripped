@@ -10,55 +10,46 @@
         'currentUser'
     ];
 
-    function Authorization($window, $rootScope, $location, currentUser) {
+    function Authorization($window, $rootScope, $location) {
         var self = this;
 
         // Extracts the 'claims' section of the JWT and parses
         // the base64 into a javascript object.
-        self.parseJWT = function(token) {
-            var base64Url = token.split('.')[1];
-            var base64 = base64Url.replace('-', '+').replace('_', '/');
-
+        self.parseClaims = function(token) {
+            // var base64Url = token.split('.')[1];
+            var base64 = token.replace('-', '+').replace('_', '/');
             var params = JSON.parse($window.atob(base64));
-
-            currentUser.storeUser(
-                params.firstName,
-                params.lastName,
-                params.email
-            );
 
             return params;
         }
 
-        self.saveToken = function(token) {
-            $window.localStorage['jwtToken'] = token;
+        self.saveClaims = function(claimsData) {
+            $window.localStorage['claims'] = claimsData;
+            var params = self.parseClaims(claimsData);
+            $rootScope.$broadcast('updateUserInfo', {
+                details: params
+            });
         }
 
-        self.getToken = function() {
-            return $window.localStorage['jwtToken'];
+        self.getClaims = function() {
+            return $window.localStorage['claims'];
         }
 
         self.removeToken = function() {
-            $window.localStorage.removeItem('jwtToken');
-            console.log('User has been logged out.');
+            $window.localStorage.removeItem('claims');
+            $location.path('/');
         }
 
         self.isAuthorized = function() {
-            var token = self.getToken();
+            var claims = self.getClaims();
 
-            if (token) {
-                var params = self.parseJWT(token);
+            if (claims) {
+                var params = self.parseClaims(claims);
 
                 return Math.floor(new Date().getTime() / 1000) <= params.exp;
             } else {
                 return false;
             }
         }
-
-        $rootScope.$watch(function() { return self.isAuthorized(); }, function(newValue, oldValue) {
-            if (!newValue && oldValue) {
-                $location.path('/');
-            }
-        }, true);
     }
 }());

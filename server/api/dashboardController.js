@@ -1,20 +1,27 @@
 var nJwt = require('njwt'),
-    cookieParser = require('cookie-parser'),
+    cookie = require('cookie'),
     config = require('../config/config');
 
 module.exports = function(app) {
     app.get('/api/dashboard', function(req, res) {
-        nJwt.verify(req.headers.token, config.secret, function(err, verifiedJwt) {
-            if (err) {
-                return res.json({ success: false, message: 'Error verifying JWT.' });
-            }
+        if (req.headers.cookie) {
+            var jwt = cookie.parse(req.headers.cookie).jwt;
+            nJwt.verify(jwt, config.secret, function(err, verifiedJwt) {
+                if (err) {
+                    console.log('there was an error ' + err);
+                    return res.json({ success: false, message: 'Error verifying JWT.' });
+                }
 
-            if (verifiedJwt) {
-                res.cookie('mycustom', { value: 'did this work' });
-                res.json({ success: true, message: 'JWT was verified.' });
-            } else {
-                res.json({ succcess: false, message: 'JWT failed verification.' });
-            }
-        });
+                if (verifiedJwt) {
+                    console.log('verification passed');
+                    res.json({ success: true, message: 'JWT was verified.' });
+                } else {
+                    console.log('verification failed');
+                    res.json({ succcess: false, message: 'JWT failed verification.' });
+                }
+            });
+        } else {
+            res.json({ success: false, message: 'No cookie was found' });
+        }
     });
 }

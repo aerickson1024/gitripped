@@ -3,22 +3,22 @@
         .module('app')
         .factory('authorizationInterceptor', AuthorizationInterceptor);
 
-    AuthorizationInterceptor.$inject = ['authorization'];
+    AuthorizationInterceptor.$inject = ['$location', 'authorization'];
 
-    function AuthorizationInterceptor(authorization) {
+    function AuthorizationInterceptor($location, authorization) {
         return {
             request: function(config) {
-                var token = authorization.getToken();
+                var claims = authorization.getClaims();
 
-                if (token) {
-                    config.headers.token = token;
+                if (claims) {
+                    config.headers.claims = claims;
                 }
 
                 return config;
             },
             response: function(res) {
-                if (res.data.token) {
-                    authorization.saveToken(res.data.token);
+                if (res.data.claims) {
+                    authorization.saveClaims(res.data.claims);
                 }
 
                 return res;

@@ -23,6 +23,11 @@ var userSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    permissions: {
+        type: [String],
+        require: true,
+        default: 'member'
+    }
 });
 
 // Before a 'save' is done on the password, the password needs

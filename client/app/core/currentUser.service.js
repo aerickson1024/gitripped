@@ -3,27 +3,30 @@
         .module('app')
         .service('currentUser', CurrentUser);
 
-    CurrentUser.$inject = [];
+    CurrentUser.$inject = ['$rootScope'];
 
-    function CurrentUser() {
+    function CurrentUser($rootScope) {
         var self = this;
         self.firstName = '';
         self.lastName = '';
         self.email = '';
+        self.permissions = [];
 
-        this.storeUser = function(firstName, lastName, email) {
-            self.firstName = firstName;
-            self.lastName = lastName;
-            self.email = email;
-        }
-
-        this.getUser = function(callback) {
+        self.getUser = function(callback) {
             var obj = {
                 firstName: self.firstName,
                 lastName: self.lastName,
-                email: self.email
+                email: self.email,
+                permissions: self.permissions
             };
             callback(obj);
         }
+
+        $rootScope.$on('updateUserInfo', function(e, opt) {
+            self.firstName = opt.details.firstName;
+            self.lastName = opt.details.lastName;
+            self.email = opt.details.email;
+            self.permissions = opt.details.permissions;
+        });
     }
 }());

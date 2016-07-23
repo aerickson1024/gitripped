@@ -2,6 +2,7 @@ var bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     config = require('../config/config'),
     nJwt = require('njwt'),
+    cookie = require('cookie'),
     user = require('../models/user');
 
 module.exports = function(app) {
@@ -45,23 +46,26 @@ module.exports = function(app) {
             } else {
                 foundUser.comparePassword(req.body.password, function(err, isMatch) {
                     if (isMatch && !err) {
-                        var claims = {
+                        var claimsData = {
                             sub: foundUser._id,
                             iss: 'http://locahost:3000',
-                            permissions: 'admin'
+                            permissions: foundUser.permissions,
+                            firstName: foundUser.firstName,
+                            lastName: foundUser.lastName,
+                            email: foundUser.email
                         };
 
-                        var jwt = nJwt.create(claims, config.secret);
-                        jwt.body.firstName = foundUser.firstName;
-                        jwt.body.lastName = foundUser.lastName;
-                        jwt.body.email = foundUser.email;
-
+                        var jwt = nJwt.create(claimsData, config.secret);
                         var token = jwt.compact(jwt);
+                        var setCookie = cookie.serialize('jwt', token, {
+                            httpOnly: true
+                        });
+                        res.header({ 'Set-Cookie' : setCookie });
 
                         res.json({
                             success: true,
-                            message: 'JWT was created.',
-                            token: token
+                            message: 'JWT cookie was created.',
+                            claims: token.split('.')[1]
                         });
                     } else {
                         res.json({
