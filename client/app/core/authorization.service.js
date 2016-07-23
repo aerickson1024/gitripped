@@ -10,7 +10,6 @@
     ];
 
     function Authorization($window, $rootScope, $location) {
-        console.log('authorization service started');
         var self = this;
 
         // Extracts the 'claims' section of the JWT and parses

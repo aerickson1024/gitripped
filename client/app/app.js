@@ -40,7 +40,6 @@
                 var routesThatRequireAuthorization = ['/dashboard'];
 
                 $rootScope.$on('$routeChangeStart', function(event, next, current) {
-                    console.log($location.path());
                     if (_(routesThatRequireAuthorization).contains($location.path()) && !authorization.isAuthorized()) {
                         $location.path('/');
                     }
