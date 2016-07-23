@@ -1,12 +1,12 @@
 (function() {
     angular
         .module('app', [
+            'ngRoute',
             'app.header',
             'app.landing',
             'app.register',
             'app.login',
-            'app.dashboard',
-            'ngRoute'
+            'app.dashboard'
         ])
         .config(['$routeProvider', '$httpProvider',
             function($routeProvider, $httpProvider) {
@@ -35,11 +35,12 @@
 
                 $httpProvider.interceptors.push('authorizationInterceptor');
         }])
-        .run(['$rootScope', '$location', 'authorization',
-            function($rootScope, $location, authorization) {
+        .run(['$rootScope', '$location', 'authorization', 'currentUser',
+            function($rootScope, $location, authorization, currentUser) {
                 var routesThatRequireAuthorization = ['/dashboard'];
 
                 $rootScope.$on('$routeChangeStart', function(event, next, current) {
+                    console.log($location.path());
                     if (_(routesThatRequireAuthorization).contains($location.path()) && !authorization.isAuthorized()) {
                         $location.path('/');
                     }

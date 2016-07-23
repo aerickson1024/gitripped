@@ -1,14 +1,13 @@
 var nJwt = require('njwt'),
-    cookie = require('cookie'),
     config = require('../config/config');
 
 module.exports = function(app) {
     app.get('/api/dashboard', function(req, res) {
-        if (req.headers.cookie) {
-            var jwt = cookie.parse(req.headers.cookie).jwt;
+        if (req.cookies.jwt) {
+            var jwt = req.cookies.jwt;
             nJwt.verify(jwt, config.secret, function(err, verifiedJwt) {
                 if (err) {
-                    console.log('there was an error ' + err);
+                    console.log(err.JwtBody);
                     return res.json({ success: false, message: 'Error verifying JWT.' });
                 }
 
@@ -21,7 +20,7 @@ module.exports = function(app) {
                 }
             });
         } else {
-            res.json({ success: false, message: 'No cookie was found' });
+            res.json({ success: false, message: 'No JWT cookie was found' });
         }
     });
 }

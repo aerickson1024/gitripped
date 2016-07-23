@@ -3,30 +3,58 @@
         .module('app')
         .service('currentUser', CurrentUser);
 
-    CurrentUser.$inject = ['$rootScope'];
+    CurrentUser.$inject = ['$rootScope', 'authorization'];
 
-    function CurrentUser($rootScope) {
+    function CurrentUser($rootScope, authorization) {
         var self = this;
         self.firstName = '';
         self.lastName = '';
         self.email = '';
         self.permissions = [];
 
+        var initialLoad = true;
+
         self.getUser = function(callback) {
-            var obj = {
-                firstName: self.firstName,
-                lastName: self.lastName,
-                email: self.email,
-                permissions: self.permissions
-            };
-            callback(obj);
+            var userDetails;
+            var details;
+            if (initialLoad) {
+                userDetails = self.populateDetails();
+                initialLoad = false;
+            }
+
+            if (userDetails) {
+                details = {
+                    firstName: userDetails.firstName,
+                    lastName: userDetails.lastName,
+                    email: userDetails.email,
+                    permissions: userDetails.permissions
+                };
+            } else {
+                details = {
+                    firstName: self.firstName,
+                    lastName: self.lastName,
+                    email: self.email,
+                    permissions: self.permissions
+                };
+            }
+            callback(details);
         }
 
-        $rootScope.$on('updateUserInfo', function(e, opt) {
-            self.firstName = opt.details.firstName;
-            self.lastName = opt.details.lastName;
-            self.email = opt.details.email;
-            self.permissions = opt.details.permissions;
+        self.populateDetails = function() {
+            var claims = authorization.getClaims();
+            var params = authorization.parseClaims(claims);
+            self.firstName = params.firstName;
+            self.lastName = params.lastName;
+            self.email = params.email;
+            self.permissions = params.permissions;
+        }
+
+        $rootScope.$on('updateUserInfo', function(events, args) {
+            self.firstName = args.details.firstName;
+            self.lastName = args.details.lastName;
+            self.email = args.details.email;
+            self.permissions = args.details.permissions;
+            $rootScope.$broadcast('currentUserDetailsChanged');
         });
     }
 }());

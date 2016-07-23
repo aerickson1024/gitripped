@@ -2,7 +2,7 @@ var bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     config = require('../config/config'),
     nJwt = require('njwt'),
-    cookie = require('cookie'),
+    cookieParser = require('cookie-parser'),
     user = require('../models/user');
 
 module.exports = function(app) {
@@ -46,6 +46,7 @@ module.exports = function(app) {
             } else {
                 foundUser.comparePassword(req.body.password, function(err, isMatch) {
                     if (isMatch && !err) {
+                        //res.clearCookie('jwt');
                         var claimsData = {
                             sub: foundUser._id,
                             iss: 'http://locahost:3000',
@@ -56,15 +57,14 @@ module.exports = function(app) {
                         };
 
                         var jwt = nJwt.create(claimsData, config.secret);
+                        //jwt.setExpiration(new Date().getTime() + 10000);
+
                         var token = jwt.compact(jwt);
-                        var setCookie = cookie.serialize('jwt', token, {
-                            httpOnly: true
-                        });
-                        res.header({ 'Set-Cookie' : setCookie });
+                        res.cookie('jwt', token);
 
                         res.json({
                             success: true,
-                            message: 'JWT cookie was created.',
+                            message: 'JWT cookieParser was created.',
                             claims: token.split('.')[1]
                         });
                     } else {

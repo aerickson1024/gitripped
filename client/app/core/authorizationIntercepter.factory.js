@@ -17,7 +17,7 @@
                 return config;
             },
             response: function(res) {
-                if (res.data.claims) {
+                if (res.data.success && res.data.claims) {
                     authorization.saveClaims(res.data.claims);
                 }
 

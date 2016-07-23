@@ -9,7 +9,7 @@
         var vm = this;
 
         vm.logout = function() {
-            authorization.removeToken();
+            authorization.removeClaims();
         }
 
         vm.isAuthorized = function() {

@@ -6,18 +6,17 @@
     Authorization.$inject = [
         '$window',
         '$rootScope',
-        '$location',
-        'currentUser'
+        '$location'
     ];
 
     function Authorization($window, $rootScope, $location) {
+        console.log('authorization service started');
         var self = this;
 
         // Extracts the 'claims' section of the JWT and parses
         // the base64 into a javascript object.
-        self.parseClaims = function(token) {
-            // var base64Url = token.split('.')[1];
-            var base64 = token.replace('-', '+').replace('_', '/');
+        self.parseClaims = function(claims) {
+            var base64 = claims.replace('-', '+').replace('_', '/');
             var params = JSON.parse($window.atob(base64));
 
             return params;
@@ -29,13 +28,14 @@
             $rootScope.$broadcast('updateUserInfo', {
                 details: params
             });
+            console.log('broadcasted event');
         }
 
         self.getClaims = function() {
             return $window.localStorage['claims'];
         }
 
-        self.removeToken = function() {
+        self.removeClaims = function() {
             $window.localStorage.removeItem('claims');
             $location.path('/');
         }
