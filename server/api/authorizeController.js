@@ -60,7 +60,9 @@ module.exports = function(app) {
                         //jwt.setExpiration(new Date().getTime() + 10000);
 
                         var token = jwt.compact(jwt);
-                        res.cookie('jwt', token);
+                        res.cookie('jwt', token, {
+                            httpOnly: true
+                        });
 
                         res.json({
                             success: true,
