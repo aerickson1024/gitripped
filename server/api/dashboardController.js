@@ -3,8 +3,10 @@ var nJwt = require('njwt'),
 
 module.exports = function(app) {
     app.get('/api/dashboard', function(req, res) {
+        console.log(req.cookies.jwt);
         if (req.cookies.jwt) {
             var jwt = req.cookies.jwt;
+            console.log(jwt);
             nJwt.verify(jwt, config.secret, function(err, verifiedJwt) {
                 if (err) {
                     console.log(err.JwtBody);

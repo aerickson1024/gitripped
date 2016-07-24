@@ -61,7 +61,8 @@ module.exports = function(app) {
 
                         var token = jwt.compact(jwt);
                         res.cookie('jwt', token, {
-                            httpOnly: true
+                            httpOnly: true,
+                            secure: true
                         });
 
                         res.json({
