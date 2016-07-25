@@ -18,14 +18,10 @@
             if (res.data.success) {
                 console.log(res.data.message);
             } else {
-                authorization.removeClaims();
+                // authorization.removeClaims();
                 console.log(res.data.message);
             }
         });
-
-        vm.logout = function() {
-            console.log('User has been logged out.');
-        }
 
         $rootScope.$on('currentUserDetailsChanged', function(events, args) {
             currentUser.getUser(function(res) {

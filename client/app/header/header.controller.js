@@ -3,13 +3,13 @@
         .module('app.header')
         .controller('header', Header);
 
-    Header.$inject = ['authorization'];
+    Header.$inject = ['authorization', 'user'];
 
-    function Header(authorization) {
+    function Header(authorization, user) {
         var vm = this;
 
         vm.logout = function() {
-            authorization.removeClaims();
+            user.removeAuthorization();
         }
 
         vm.isAuthorized = function() {

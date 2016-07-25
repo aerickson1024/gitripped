@@ -36,7 +36,7 @@
 
         self.removeClaims = function() {
             $window.localStorage.removeItem('claims');
-            $location.path('/');
+            // $location.path('/');
         }
 
         self.isAuthorized = function() {

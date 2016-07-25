@@ -3,9 +3,9 @@
         .module('app')
         .service('currentUser', CurrentUser);
 
-    CurrentUser.$inject = ['$rootScope', 'authorization'];
+    CurrentUser.$inject = ['$rootScope', 'authorization', '$http'];
 
-    function CurrentUser($rootScope, authorization) {
+    function CurrentUser($rootScope, authorization, $http) {
         var self = this;
         self.firstName = '';
         self.lastName = '';
@@ -47,6 +47,10 @@
             self.lastName = params.lastName;
             self.email = params.email;
             self.permissions = params.permissions;
+        }
+
+        self.verifyMe = function() {
+            return $http.get('/api/verifyMe');
         }
 
         $rootScope.$on('updateUserInfo', function(events, args) {

@@ -3,26 +3,42 @@ var nJwt = require('njwt'),
 
 module.exports = function(app) {
     app.get('/api/dashboard', function(req, res) {
-        console.log(req.cookies.jwt);
         if (req.cookies.jwt) {
             var jwt = req.cookies.jwt;
-            console.log(jwt);
             nJwt.verify(jwt, config.secret, function(err, verifiedJwt) {
                 if (err) {
-                    console.log(err.JwtBody);
-                    return res.json({ success: false, message: 'Error verifying JWT.' });
+                    res.status(401);
+                    return res.json({
+                        success: false,
+                        message: 'Error verifying JWT.' ,
+                        revokeAuthentication: true
+                    });
                 }
 
                 if (verifiedJwt) {
                     console.log('verification passed');
-                    res.json({ success: true, message: 'JWT was verified.' });
+                    res.json({
+                        success: true,
+                        message: 'JWT was verified.',
+                        revokeAuthentication: false
+                    });
                 } else {
                     console.log('verification failed');
-                    res.json({ succcess: false, message: 'JWT failed verification.' });
+                    res.status(401);
+                    res.json({
+                        succcess: false,
+                        message: 'JWT failed verification.',
+                        revokeAuthentication: true
+                    });
                 }
             });
         } else {
-            res.json({ success: false, message: 'No JWT cookie was found' });
+            res.status(401);
+            res.json({
+                success: false,
+                message: 'No JWT cookie was found',
+                revokeAuthentication: true
+            });
         }
     });
 }

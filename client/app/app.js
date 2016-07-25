@@ -29,7 +29,12 @@
                     .when('/dashboard', {
                         templateUrl: 'app/dashboard/dashboard.html',
                         controller: 'dashboard',
-                        controllerAs: 'vm'
+                        controllerAs: 'vm',
+                        resolve: {
+                            auth: ['currentUser', function(currentUser) {
+                                return currentUser.verifyMe();
+                            }]
+                        }
                     })
                     .otherwise({ redirectTo: '/' });
 
@@ -40,9 +45,15 @@
                 var routesThatRequireAuthorization = ['/dashboard'];
 
                 $rootScope.$on('$routeChangeStart', function(event, next, current) {
+                    console.log($location.path());
                     if (_(routesThatRequireAuthorization).contains($location.path()) && !authorization.isAuthorized()) {
-                        $location.path('/');
+                        // $location.path('/');
                     }
+                });
+
+                $rootScope.$on('$routeChangeError', function(events, next, current) {
+                    console.log('error in changing route');
+                    $location.path('/login');
                 });
         }]);
 }());
